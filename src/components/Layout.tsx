@@ -10,7 +10,7 @@ export const Layout: FC = ({ children }) => {
       border="1px solid black"
       mx="auto"
       textAlign="center"
-      bg="custom.black"
+      bg="custom.bg"
     >
       {children}
     </Box>

@@ -21,7 +21,7 @@ const Register: React.FC<registerProps> = ({}) => {
   return (
     <Layout>
       <Wrapper variant="small">
-        <Center p={4} bg="custom.grey">
+        <Center p={4} bg="custom.layout">
           <Flex w="100%" direction="column">
             <Heading as="h1" size="2xl" w="100%">
               Chat-Up
@@ -57,8 +57,8 @@ const Register: React.FC<registerProps> = ({}) => {
                       mt={4}
                       isLoading={isSubmitting}
                       type="submit"
-                      background="custom.blue"
-                      color="custom.black"
+                      background="custom.primary"
+                      color="custom.bg"
                     >
                       register
                     </Button>
