@@ -7,21 +7,10 @@ import { useMemo } from 'react';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
-const createIsomorphicLink = () => {
-  if (typeof window === 'undefined') {
-    // server
-    console.log('at server');
-  } else {
-    // client
-    const { HttpLink } = require('@apollo/client/link/http');
-    return new HttpLink({ uri: process.env.NEXT_PUBLIC_API_URL });
-  }
-};
-
 const createApolloClient = () => {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: createIsomorphicLink(),
+    uri: process.env.NEXT_PUBLIC_API_URL,
     cache: new InMemoryCache(),
   });
 };
