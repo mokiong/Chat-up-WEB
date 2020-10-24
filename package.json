@@ -8,8 +8,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/client": "^3.2.5",
     "@chakra-ui/core": "^1.0.0-rc.5",
     "formik": "^2.2.0",
+    "graphql": "^15.3.0",
     "next": "^9.1.7",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
