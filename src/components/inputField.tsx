@@ -14,6 +14,8 @@ type inputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   textarea?: boolean;
 };
 
+type inputTextArea = typeof Input | typeof Textarea;
+
 // '' = false
 // 'error message' = true
 
@@ -27,7 +29,7 @@ export const InputField: React.FC<inputFieldProps> = ({
   let InputOrTextarea = Input;
 
   if (textarea) {
-    (InputOrTextarea as any) = Textarea;
+    (InputOrTextarea as inputTextArea) = Textarea;
   }
 
   return (

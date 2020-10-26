@@ -5,6 +5,7 @@ import {
   NormalizedCacheObject,
 } from '@apollo/client';
 import { offsetLimitPagination } from '@apollo/client/utilities';
+import { NextPageContext } from 'next';
 import { useMemo } from 'react';
 
 type ApolloState = NormalizedCacheObject | null;
@@ -16,6 +17,7 @@ function createApolloClient() {
     ssrMode: typeof window === 'undefined',
     link: createHttpLink({
       uri: process.env.NEXT_PUBLIC_API_URL,
+      credentials: 'include',
     }),
     // headers: {
     //   cookie: (typeof window === 'undefined' ? ctx.req.headers.cookie : undefined) || ""

@@ -1,28 +1,24 @@
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  FormErrorMessage,
-  Button,
-  Flex,
-  Box,
-  Center,
-  Heading,
-} from '@chakra-ui/core';
-import React from 'react';
-import { Form, Formik } from 'formik';
-import { InputField } from '../components/inputField';
-import { Wrapper } from '../components/Wrapper';
-import { Layout } from '../components/Layout';
-import { useRegisterMutation } from '../generated/graphql';
-import { toErrorMap } from '../utils/toErrorMap';
+import { Center, Flex, Heading, Box, Button } from '@chakra-ui/core';
+import { Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
+import { FC } from 'react';
+import { InputField } from '../components/inputField';
+import { Layout } from '../components/Layout';
+import { Wrapper } from '../components/Wrapper';
+import { useLoginMutation } from '../generated/graphql';
+import { getUser } from '../utils/getUser';
+import { toErrorMap } from '../utils/toErrorMap';
 
-interface registerProps {}
+interface loginProps {}
 
-const Register: React.FC<registerProps> = ({}) => {
+const login: FC<loginProps> = ({}) => {
   const router = useRouter();
-  const [register] = useRegisterMutation();
+  const [login] = useLoginMutation();
+
+  if (getUser()) {
+    // user already logged in
+    router.push('/');
+  }
 
   return (
     <Layout>
@@ -34,15 +30,15 @@ const Register: React.FC<registerProps> = ({}) => {
             </Heading>
             <Box mt={4} paddingLeft="50px" paddingRight="50px">
               <Formik
-                initialValues={{ username: '', email: '', password: '' }}
+                initialValues={{ usernameOrEmail: '', password: '' }}
                 onSubmit={async (values, { setErrors }) => {
-                  const response = await register({
+                  const response = await login({
                     variables: { ...values },
                   });
 
-                  if (response.data?.createUser.errors) {
-                    setErrors(toErrorMap(response.data.createUser.errors));
-                  } else if (response.data?.createUser.user) {
+                  if (response.data?.login.errors) {
+                    setErrors(toErrorMap(response.data.login.errors));
+                  } else if (response.data?.login.user) {
                     router.push('/');
                   }
                 }}
@@ -50,17 +46,10 @@ const Register: React.FC<registerProps> = ({}) => {
                 {({ isSubmitting }) => (
                   <Form>
                     <InputField
-                      name="username"
-                      placeholder="username"
-                      label="Username"
+                      name="usernameOrEmail"
+                      placeholder="username or email"
+                      label="Username or Email"
                     />
-                    <Box mt={4}>
-                      <InputField
-                        name="email"
-                        placeholder="email"
-                        label="Email"
-                      />
-                    </Box>
                     <Box mt={4}>
                       <InputField
                         name="password"
@@ -77,7 +66,7 @@ const Register: React.FC<registerProps> = ({}) => {
                         background="custom.primary"
                         color="custom.bg"
                       >
-                        register
+                        login
                       </Button>
                     </Center>
                   </Form>
@@ -91,4 +80,4 @@ const Register: React.FC<registerProps> = ({}) => {
   );
 };
 
-export default Register;
+export default login;

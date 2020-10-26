@@ -1,37 +1,31 @@
 import { gql, useQuery } from '@apollo/client';
+import { Textarea } from '@chakra-ui/core';
+import { useMeQuery } from '../generated/graphql';
 import { initializeApollo } from '../utils/withApollo';
 
-const MyQuery = gql`
-  query MyQuery {
-    users {
-      id
-      username
-    }
-  }
-`;
-
 export default function Index() {
-  const { data, loading } = useQuery(MyQuery);
+  const { data, loading } = useMeQuery();
 
   if (loading) return <span>loading...</span>;
+  if (!data?.me) return <span>no data found</span>;
 
   return (
     <div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <pre>{data.me.username}</pre>
     </div>
   );
 }
 
-export async function getStaticProps() {
-  const apolloClient = initializeApollo(null);
+// export async function getStaticProps() {
+//   const apolloClient = initializeApollo(null);
 
-  await apolloClient.query({
-    query: MyQuery,
-  });
+//   await apolloClient.query({
+//     query: MyQuery,
+//   });
 
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-    },
-  };
-}
+//   return {
+//     props: {
+//       initialApolloState: apolloClient.cache.extract(),
+//     },
+//   };
+// }
